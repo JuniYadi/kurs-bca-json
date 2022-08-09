@@ -1,4 +1,5 @@
-const date = '14 Agt 2022 15.08 WIB'
+const app = require('express')();
+const BCA = require('@premiumfastnet/bca-kurs');
 
 const monthConv = {
     'jan': 'Jan',
@@ -27,13 +28,9 @@ const dateParser = (date) => {
     const minute = minuteSplit[1];
 
     const dateParse = `${day}-${monthConv[month.toLowerCase()]}-${year} ${hour}:${minute}:00`;
-    // const dateParse = `${day}-${month}-${year} ${hour}:${minute}:00`;
-
-    console.log('dateParse: ' + dateParse)
-
     const dateObj = new Date(dateParse);
 
-    console.log('dateObj: ' + dateObj)
+    console.log(dateObj)
 
     const dateUTC = dateObj.toISOString();
     const dateTimestamp = +new Date(dateParse);
@@ -45,4 +42,21 @@ const dateParser = (date) => {
     }
 }
 
-console.log(dateParser(date))
+app.get('/api/kurs', async (req, res) => {
+    const currency = new BCA();
+    const datas = await currency.getCurrency();
+
+    console.log(datas)
+
+    // date parser
+    const dateConvert = dateParser(datas.check);
+
+    res.json({
+        check: datas.check,
+        checkTimeUTC: dateConvert.dateUTC,
+        checkTimestamp: dateConvert.dateTimestamp,
+        data: datas.data
+    });
+})
+
+module.exports = app;
