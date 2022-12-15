@@ -19,6 +19,6 @@
   "homepage": "https://github.com/JuniYadi/kurs-bca-json#readme",
   "dependencies": {
     "@premiumfastnet/bca-kurs": "git+https://github.com/Premium-Fast-Network/node-bca-kurs.git",
-    "express": "^4.17.2"
+    "express": "^4.17.3"
   }
 }
